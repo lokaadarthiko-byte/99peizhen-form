@@ -1,10 +1,5 @@
 {
   "version": 2,
   "name": "99peizhen-form",
-  "buildCommand": "echo 'no build needed'",
-  "outputDirectory": "public",
-  "framework": "static",
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
-  ]
+  "outputDirectory": "public"
 }
