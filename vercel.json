@@ -1,0 +1,11 @@
+{
+  "name": "99peizhen-form",
+  "version": "1.0.0",
+  "description": "99陪诊平台 - 陪诊师信息采集系统",
+  "buildCommand": "echo 'no build needed'",
+  "outputDirectory": "public",
+  "framework": "static",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" }
+  ]
+}

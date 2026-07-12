@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>99陪诊平台 · 陪诊师入驻申请</title>
+<style>
+:root {
+  --primary: #2563eb;
+  --primary-light: #dbeafe;
+  --primary-dark: #1e40af;
+  --success: #16a34a;
+  --success-light: #dcfce7;
+  --warning: #f59e0b;
+  --danger: #dc2626;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.04);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--gray-100);
+  color: var(--gray-800);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 24px 20px 20px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.2);
+}
+.header-logo { font-size: 22px; font-weight: 700; letter-spacing: 1px; }
+.header-sub { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+.progress-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.25);
+  margin-top: 14px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: white;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+.container { max-width: 680px; margin: 0 auto; padding: 16px 16px 80px; }
+.section {
+  background: white;
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.section-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gray-900);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.section-num {
+  background: var(--primary);
+  color: white;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.section-desc { font-size: 13px; color: var(--gray-500); margin-bottom: 18px; padding-left: 34px; }
+.field { margin-bottom: 18px; }
+.field-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 8px;
+  display: block;
+}
+.field-label .required { color: var(--danger); margin-left: 2px; }
+.field-hint { font-size: 12px; color: var(--gray-400); margin-top: 4px; }
+input[type="text"], input[type="tel"], input[type="number"], select, textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--gray-800);
+  background: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+input[type="text"]:focus, input[type="tel"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+textarea { resize: vertical; min-height: 80px; }
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236b7280' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+.radio-group, .checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.radio-group.vertical, .checkbox-group.vertical { flex-direction: column; gap: 6px; }
+.radio-item, .checkbox-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--gray-700);
+  transition: all 0.2s;
+  background: white;
+  user-select: none;
+}
+.radio-item:hover, .checkbox-item:hover { border-color: var(--primary); background: var(--primary-light); }
+.radio-item.active, .checkbox-item.active {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+.radio-item input, .checkbox-item input { margin-right: 8px; accent-color: var(--primary); width: 18px; height: 18px; }
+.hospital-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 6px;
+}
+.hospital-grid .checkbox-item { padding: 8px 12px; font-size: 13px; }
+.sub-group-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-500);
+  margin: 12px 0 6px;
+  padding-left: 2px;
+}
+.tech-service-item {
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+.tech-service-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tech-service-title .badge {
+  font-size: 11px;
+  background: var(--gray-100);
+  color: var(--gray-500);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 400;
+}
+.tech-service-title .badge.has { background: var(--success-light); color: var(--success); }
+.btn-submit {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+}
+.btn-submit:active { transform: scale(0.98); }
+.btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+.error-msg {
+  color: var(--danger);
+  font-size: 13px;
+  margin-top: 4px;
+  display: none;
+}
+.field.error input, .field.error select, .field.error textarea { border-color: var(--danger); }
+.field.error .error-msg { display: block; }
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.96);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 40px 24px;
+  text-align: center;
+}
+.success-overlay.show { display: flex; }
+.success-icon {
+  width: 72px;
+  height: 72px;
+  background: var(--success-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.success-icon svg { width: 40px; height: 40px; }
+.success-title { font-size: 22px; font-weight: 700; color: var(--gray-900); margin-bottom: 8px; }
+.success-desc { font-size: 15px; color: var(--gray-500); margin-bottom: 24px; max-width: 320px; }
+.success-id { font-size: 14px; color: var(--gray-400); margin-bottom: 24px; }
+.btn-back {
+  padding: 12px 32px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.footer-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--gray-400);
+  padding: 20px;
+  line-height: 1.8;
+}
+.condition-field { display: none; }
+.condition-field.show { display: block; }
+.platform-input {
+  margin-top: 8px;
+  padding: 10px 14px;
+  border: 1.5px dashed var(--gray-300);
+  border-radius: 8px;
+  font-size: 14px;
+  width: 100%;
+}
+.platform-input::placeholder { color: var(--gray-400); }
+@media (max-width: 480px) {
+  .container { padding: 12px 12px 60px; }
+  .section { padding: 20px 16px; }
+  .hospital-grid { grid-template-columns: 1fr; }
+  .radio-group { flex-direction: column; }
+  .radio-item { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">99陪诊平台</div>
+  <div class="header-sub">全国连锁 · 哈尔滨陪诊师入驻申请</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div class="container">
+
+  <!-- 第一部分：基本信息 -->
+  <div class="section" id="section1">
+    <div class="section-title"><span class="section-num">1</span> 基本信息</div>
+    <div class="section-desc">请如实填写您的个人基本信息</div>
+
+    <div class="field">
+      <label class="field-label">姓名<span class="required">*</span></label>
+      <input type="text" id="name" placeholder="请输入您的姓名">
+      <div class="error-msg">请输入姓名</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">性别<span class="required">*</span></label>
+      <div class="radio-group" data-field="gender">
+        <label class="radio-item"><input type="radio" name="gender" value="男">男</label>
+        <label class="radio-item"><input type="radio" name="gender" value="女">女</label>
+      </div>
+      <div class="error-msg">请选择性别</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">年龄<span class="required">*</span></label>
+      <div class="radio-group" data-field="age">
+        <label class="radio-item"><input type="radio" name="age" value="25岁以下">25岁以下</label>
+        <label class="radio-item"><input type="radio" name="age" value="25-35岁">25-35岁</label>
+        <label class="radio-item"><input type="radio" name="age" value="36-45岁">36-45岁</label>
+        <label class="radio-item"><input type="radio" name="age" value="46-55岁">46-55岁</label>
+        <label class="radio-item"><input type="radio" name="age" value="55岁以上">55岁以上</label>
+      </div>
+      <div class="error-msg">请选择年龄区间</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">联系电话<span class="required">*</span></label>
+      <input type="tel" id="phone" placeholder="11位手机号" maxlength="11">
+      <div class="error-msg">请输入正确的11位手机号</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">微信号<span class="required">*</span></label>
+      <input type="text" id="wechat" placeholder="请输入您的微信号">
+      <div class="error-msg">请输入微信号</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">常住区域<span class="required">*</span></label>
+      <select id="district">
+        <option value="">请选择</option>
+        <option>南岗区</option><option>道里区</option><option>道外区</option>
+        <option>香坊区</option><option>松北区</option><option>平房区</option>
+        <option>呼兰区</option><option>阿城区</option><option>双城区</option>
+      </select>
+      <div class="error-msg">请选择常住区域</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否有交通工具<span class="required">*</span></label>
+      <div class="radio-group" data-field="transport">
+        <label class="radio-item"><input type="radio" name="transport" value="有车">有车</label>
+        <label class="radio-item"><input type="radio" name="transport" value="公交地铁">公交地铁</label>
+        <label class="radio-item"><input type="radio" name="transport" value="打车">打车</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">最高学历<span class="required">*</span></label>
+      <div class="radio-group" data-field="education">
+        <label class="radio-item"><input type="radio" name="education" value="初中及以下">初中及以下</label>
+        <label class="radio-item"><input type="radio" name="education" value="高中或中专">高中或中专</label>
+        <label class="radio-item"><input type="radio" name="education" value="大专">大专</label>
+        <label class="radio-item"><input type="radio" name="education" value="本科">本科</label>
+        <label class="radio-item"><input type="radio" name="education" value="硕士及以上">硕士及以上</label>
+      </div>
+      <div class="error-msg">请选择学历</div>
+    </div>
+  </div>
+
+  <!-- 第二部分：从业经验 -->
+  <div class="section" id="section2">
+    <div class="section-title"><span class="section-num">2</span> 从业经验</div>
+    <div class="section-desc">请填写您的陪诊从业相关信息</div>
+
+    <div class="field">
+      <label class="field-label">陪诊从业时间<span class="required">*</span></label>
+      <div class="radio-group" data-field="experience">
+        <label class="radio-item"><input type="radio" name="experience" value="3个月以下">3个月以下</label>
+        <label class="radio-item"><input type="radio" name="experience" value="3-6个月">3-6个月</label>
+        <label class="radio-item"><input type="radio" name="experience" value="6-12个月">6-12个月</label>
+        <label class="radio-item"><input type="radio" name="experience" value="1-2年">1-2年</label>
+        <label class="radio-item"><input type="radio" name="experience" value="2-3年">2-3年</label>
+        <label class="radio-item"><input type="radio" name="experience" value="3年以上">3年以上</label>
+      </div>
+      <div class="error-msg">请选择从业时间</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否有医护背景<span class="required">*</span></label>
+      <div class="radio-group" data-field="medical_bg">
+        <label class="radio-item"><input type="radio" name="medical_bg" value="有">有（护士/医生/护理员等）</label>
+        <label class="radio-item"><input type="radio" name="medical_bg" value="无">无</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+
+    <div class="field condition-field" id="medical_bg_detail_field">
+      <label class="field-label">如有医护背景，具体是</label>
+      <input type="text" id="medical_bg_detail" placeholder="如：注册护士3年、护理员等">
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否持有相关证书<span class="required">*</span></label>
+      <div class="checkbox-group vertical" data-field="certificates">
+        <label class="checkbox-item"><input type="checkbox" name="certificates" value="陪诊师证书">陪诊师证书</label>
+        <label class="checkbox-item"><input type="checkbox" name="certificates" value="健康管理师">健康管理师</label>
+        <label class="checkbox-item"><input type="checkbox" name="certificates" value="护士资格证">护士资格证</label>
+        <label class="checkbox-item"><input type="checkbox" name="certificates" value="社工证">社工证</label>
+        <label class="checkbox-item"><input type="checkbox" name="certificates" value="急救证书">急救证书</label>
+        <label class="checkbox-item"><input type="checkbox" name="certificates" value="无">无</label>
+      </div>
+      <div class="error-msg">请选择（如无证书请选"无"）</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">之前在哪些平台接单过<span class="required">*</span></label>
+      <div class="checkbox-group vertical" data-field="platforms">
+        <label class="checkbox-item"><input type="checkbox" name="platforms" value="陪诊呗">陪诊呗</label>
+        <label class="checkbox-item"><input type="checkbox" name="platforms" value="院小陪">院小陪</label>
+        <label class="checkbox-item"><input type="checkbox" name="platforms" value="未在平台接单过">未在平台接单过</label>
+      </div>
+      <div class="sub-group-label">其他平台（请填写，最多3个）</div>
+      <input type="text" class="platform-input" id="platform_other_1" placeholder="其他平台1（如没有可不填）">
+      <input type="text" class="platform-input" id="platform_other_2" placeholder="其他平台2（如没有可不填）">
+      <input type="text" class="platform-input" id="platform_other_3" placeholder="其他平台3（如没有可不填）">
+      <div class="error-msg">请至少选择一项</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">月均接单量<span class="required">*</span></label>
+      <div class="radio-group" data-field="monthly_orders">
+        <label class="radio-item"><input type="radio" name="monthly_orders" value="5单以下">5单以下</label>
+        <label class="radio-item"><input type="radio" name="monthly_orders" value="5-10单">5-10单</label>
+        <label class="radio-item"><input type="radio" name="monthly_orders" value="11-20单">11-20单</label>
+        <label class="radio-item"><input type="radio" name="monthly_orders" value="21-30单">21-30单</label>
+        <label class="radio-item"><input type="radio" name="monthly_orders" value="30单以上">30单以上</label>
+      </div>
+      <div class="error-msg">请选择月均接单量</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否做过哈尔滨以外的城市<span class="required">*</span></label>
+      <div class="radio-group" data-field="other_city">
+        <label class="radio-item"><input type="radio" name="other_city" value="是">是</label>
+        <label class="radio-item"><input type="radio" name="other_city" value="否">否</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+
+    <div class="field condition-field" id="other_city_detail_field">
+      <label class="field-label">请注明城市</label>
+      <input type="text" id="other_city_detail" placeholder="如：长春、沈阳、北京等">
+    </div>
+  </div>
+
+  <!-- 第三部分：服务能力 -->
+  <div class="section" id="section3">
+    <div class="section-title"><span class="section-num">3</span> 服务能力</div>
+    <div class="section-desc">请选择您能提供的服务类型和具备的能力</div>
+
+    <div class="field">
+      <label class="field-label">熟悉的医院（多选）<span class="required">*</span></label>
+      <div class="sub-group-label">核心医院（15家）</div>
+      <div class="hospital-grid" data-field="hospitals">
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈医大一院">哈医大一院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈医大二院">哈医大二院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈医大肿瘤医院(三院)">哈医大肿瘤医院(三院)</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈医大四院">哈医大四院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈医大六院">哈医大六院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="黑龙江省医院">黑龙江省医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈尔滨市第一医院">哈尔滨市第一医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈尔滨市第二医院">哈尔滨市第二医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈尔滨市第四医院">哈尔滨市第四医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈尔滨市第五医院">哈尔滨市第五医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈尔滨市儿童医院">哈尔滨市儿童医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈尔滨市红十字中心医院">哈尔滨市红十字中心医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="黑龙江中医一附院">黑龙江中医一附院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="黑龙江中医二附院">黑龙江中医二附院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="哈尔滨二四二医院">哈尔滨二四二医院</label>
+      </div>
+      <div class="sub-group-label">其他医院（11家）</div>
+      <div class="hospital-grid" data-field="hospitals">
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="省二院">省二院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="省四院">省四院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="省中医院">省中医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="省森工总医院">省森工总医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="省眼科医院">省眼科医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="北大荒集团总医院">北大荒集团总医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="市六院">市六院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="市胸科医院">市胸科医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="市中医医院">市中医医院</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="市一专科">市一专科</label>
+        <label class="checkbox-item"><input type="checkbox" name="hospitals" value="市骨伤科医院">市骨伤科医院</label>
+      </div>
+      <div class="sub-group-label">其他（请注明）</div>
+      <input type="text" id="hospital_other" placeholder="如有些民营医院、体检中心等可在此填写">
+      <div class="error-msg">请至少选择一家熟悉的医院</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">最熟悉哪家医院<span class="required">*</span></label>
+      <select id="best_hospital">
+        <option value="">请选择</option>
+        <optgroup label="核心医院">
+          <option>哈医大一院</option><option>哈医大二院</option><option>哈医大肿瘤医院(三院)</option>
+          <option>哈医大四院</option><option>哈医大六院</option><option>黑龙江省医院</option>
+          <option>哈尔滨市第一医院</option><option>哈尔滨市第二医院</option><option>哈尔滨市第四医院</option>
+          <option>哈尔滨市第五医院</option><option>哈尔滨市儿童医院</option><option>哈尔滨市红十字中心医院</option>
+          <option>黑龙江中医一附院</option><option>黑龙江中医二附院</option><option>哈尔滨二四二医院</option>
+        </optgroup>
+        <optgroup label="其他医院">
+          <option>省二院</option><option>省四院</option><option>省中医院</option>
+          <option>省森工总医院</option><option>省眼科医院</option><option>北大荒集团总医院</option>
+          <option>市六院</option><option>市胸科医院</option><option>市中医医院</option>
+          <option>市一专科</option><option>市骨伤科医院</option>
+        </optgroup>
+      </select>
+      <div class="error-msg">请选择最熟悉的医院</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">能提供的服务类型（多选）<span class="required">*</span></label>
+      <div class="checkbox-group vertical" data-field="service_types">
+        <label class="checkbox-item"><input type="checkbox" name="service_types" value="半天陪诊">半天陪诊</label>
+        <label class="checkbox-item"><input type="checkbox" name="service_types" value="全天陪诊">全天陪诊</label>
+        <label class="checkbox-item"><input type="checkbox" name="service_types" value="代办问诊">代办问诊</label>
+        <label class="checkbox-item"><input type="checkbox" name="service_types" value="代办送取报告">代办送取报告</label>
+        <label class="checkbox-item"><input type="checkbox" name="service_types" value="代办出入院">代办出入院</label>
+        <label class="checkbox-item"><input type="checkbox" name="service_types" value="代预约检查">代预约检查</label>
+        <label class="checkbox-item"><input type="checkbox" name="service_types" value="住院探望">住院探望</label>
+        <label class="checkbox-item"><input type="checkbox" name="service_types" value="代买药">代买药</label>
+        <label class="checkbox-item"><input type="checkbox" name="service_types" value="代开药">代开药</label>
+        <label class="checkbox-item"><input type="checkbox" name="service_types" value="陪同体检">陪同体检</label>
+      </div>
+      <div class="error-msg">请至少选择一项服务类型</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否能服务夜间/急诊<span class="required">*</span></label>
+      <div class="radio-group" data-field="night_service">
+        <label class="radio-item"><input type="radio" name="night_service" value="能">能</label>
+        <label class="radio-item"><input type="radio" name="night_service" value="不能">不能</label>
+        <label class="radio-item"><input type="radio" name="night_service" value="视情况">视情况</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否能提供冬季特殊服务<span class="required">*</span></label>
+      <div class="radio-group" data-field="winter_service">
+        <label class="radio-item"><input type="radio" name="winter_service" value="能">能（防滑接送等）</label>
+        <label class="radio-item"><input type="radio" name="winter_service" value="不能">不能</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">外语陪诊能力<span class="required">*</span></label>
+      <div class="checkbox-group vertical" data-field="language" id="language-group">
+        <label class="checkbox-item"><input type="checkbox" name="language" value="英语">英语</label>
+        <label class="checkbox-item"><input type="checkbox" name="language" value="俄语">俄语</label>
+        <label class="checkbox-item"><input type="checkbox" name="language" value="无">无</label>
+      </div>
+      <div class="field-hint">英语和俄语可同时选；选择"无"则不能再选英语/俄语</div>
+      <div class="error-msg">请完成外语陪诊能力选择</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否熟悉异地医保备案流程<span class="required">*</span></label>
+      <div class="radio-group" data-field="insurance">
+        <label class="radio-item"><input type="radio" name="insurance" value="熟悉">熟悉</label>
+        <label class="radio-item"><input type="radio" name="insurance" value="一般">一般</label>
+        <label class="radio-item"><input type="radio" name="insurance" value="不熟悉">不熟悉</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否有搀扶/轮椅辅助经验<span class="required">*</span></label>
+      <div class="radio-group" data-field="wheelchair">
+        <label class="radio-item"><input type="radio" name="wheelchair" value="有">有</label>
+        <label class="radio-item"><input type="radio" name="wheelchair" value="无">无</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否能接待外地患者（接站等）<span class="required">*</span></label>
+      <div class="radio-group" data-field="pickup">
+        <label class="radio-item"><input type="radio" name="pickup" value="能">能</label>
+        <label class="radio-item"><input type="radio" name="pickup" value="不能">不能</label>
+        <label class="radio-item"><input type="radio" name="pickup" value="视情况">视情况</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+  </div>
+
+  <!-- 第三部分续：技术服务经验 -->
+  <div class="section" id="section3b">
+    <div class="section-title"><span class="section-num">3</span> 技术服务经验</div>
+    <div class="section-desc">以下每项技术服务请选择您在哪些医院做过，如未做过请选"未做过"</div>
+    <div id="techServicesContainer"></div>
+  </div>
+
+  <!-- 第四部分：服务品质 -->
+  <div class="section" id="section4">
+    <div class="section-title"><span class="section-num">4</span> 服务品质</div>
+    <div class="section-desc">请根据实际情况自评</div>
+
+    <div class="field">
+      <label class="field-label">是否有过客户投诉<span class="required">*</span></label>
+      <div class="radio-group" data-field="complaint">
+        <label class="radio-item"><input type="radio" name="complaint" value="从没有">从没有</label>
+        <label class="radio-item"><input type="radio" name="complaint" value="有过">有过</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+
+    <div class="field condition-field" id="complaint_detail_field">
+      <label class="field-label">请注明投诉原因</label>
+      <input type="text" id="complaint_detail" placeholder="请简要说明投诉原因">
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否有过客户好评/感谢信<span class="required">*</span></label>
+      <div class="radio-group" data-field="praise">
+        <label class="radio-item"><input type="radio" name="praise" value="有">有</label>
+        <label class="radio-item"><input type="radio" name="praise" value="无">无</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">自评服务最大优势<span class="required">*</span></label>
+      <div class="radio-group vertical" data-field="advantage">
+        <label class="radio-item"><input type="radio" name="advantage" value="熟悉医院流程">熟悉医院流程</label>
+        <label class="radio-item"><input type="radio" name="advantage" value="沟通能力强">沟通能力强</label>
+        <label class="radio-item"><input type="radio" name="advantage" value="有医护背景">有医护背景</label>
+        <label class="radio-item"><input type="radio" name="advantage" value="耐心细心">耐心细心</label>
+        <label class="radio-item"><input type="radio" name="advantage" value="响应速度快">响应速度快</label>
+        <label class="radio-item"><input type="radio" name="advantage" value="获客能力强">获客能力强</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">自评需要提升的方面<span class="required">*</span></label>
+      <div class="radio-group vertical" data-field="improve">
+        <label class="radio-item"><input type="radio" name="improve" value="医院流程熟悉度">医院流程熟悉度</label>
+        <label class="radio-item"><input type="radio" name="improve" value="沟通技巧">沟通技巧</label>
+        <label class="radio-item"><input type="radio" name="improve" value="医疗知识">医疗知识</label>
+        <label class="radio-item"><input type="radio" name="improve" value="获客能力">获客能力</label>
+        <label class="radio-item"><input type="radio" name="improve" value="时间管理">时间管理</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">可提供服务的时间段（多选）<span class="required">*</span></label>
+      <div class="checkbox-group vertical" data-field="availability">
+        <label class="checkbox-item"><input type="checkbox" name="availability" value="工作日上午">工作日上午</label>
+        <label class="checkbox-item"><input type="checkbox" name="availability" value="工作日下午">工作日下午</label>
+        <label class="checkbox-item"><input type="checkbox" name="availability" value="工作日全天">工作日全天</label>
+        <label class="checkbox-item"><input type="checkbox" name="availability" value="周末">周末</label>
+        <label class="checkbox-item"><input type="checkbox" name="availability" value="节假日">节假日</label>
+        <label class="checkbox-item"><input type="checkbox" name="availability" value="夜间">夜间</label>
+      </div>
+      <div class="error-msg">请至少选择一个时间段</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否愿意接受平台服务规范<span class="required">*</span></label>
+      <div class="radio-group" data-field="accept_rules">
+        <label class="radio-item"><input type="radio" name="accept_rules" value="愿意">愿意</label>
+        <label class="radio-item"><input type="radio" name="accept_rules" value="需要了解更多">需要了解更多</label>
+      </div>
+      <div class="error-msg">请选择</div>
+    </div>
+  </div>
+
+  <!-- 第五部分：补充信息 -->
+  <div class="section" id="section5">
+    <div class="section-title"><span class="section-num">5</span> 补充信息（选填）</div>
+    <div class="section-desc">以下信息选填，但有助于我们更好地了解您</div>
+
+    <div class="field">
+      <label class="field-label">个人简介</label>
+      <textarea id="bio" placeholder="100字以内，简要介绍自己" maxlength="100"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">服务案例描述</label>
+      <textarea id="case_desc" placeholder="200字以内，描述一个让您印象深刻的服务案例" maxlength="200"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">是否有个人社交媒体账号</label>
+      <input type="text" id="social_media" placeholder="如：抖音@XX、小红书@XX、公众号XX等">
+    </div>
+  </div>
+
+  <button class="btn-submit" id="submitBtn" onclick="submitForm()">提交申请</button>
+
+  <div class="footer-note">
+    99陪诊平台 · 全国连锁线上陪诊服务<br>
+    不收入驻费 · 不收保证金 · 陪诊师少而精 · 保证接单量<br>
+    咨询微信：请通过招募信息中的微信号联系
+  </div>
+</div>
+
+<!-- 成功页面 -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  </div>
+  <div class="success-title">申请提交成功！</div>
+  <div class="success-desc">我们会在3个工作日内与您联系，请保持电话畅通。</div>
+  <div class="success-id" id="successId"></div>
+  <button class="btn-back" onclick="resetForm()">返回</button>
+</div>
+
+<script>
+// 医院列表
+var HOSPITALS = [
+  "哈医大一院","哈医大二院","哈医大肿瘤医院(三院)","哈医大四院","哈医大六院",
+  "黑龙江省医院","哈尔滨市第一医院","哈尔滨市第二医院","哈尔滨市第四医院","哈尔滨市第五医院",
+  "哈尔滨市儿童医院","哈尔滨市红十字中心医院","黑龙江中医一附院","黑龙江中医二附院","哈尔滨二四二医院",
+  "省二院","省四院","省中医院","省森工总医院","省眼科医院","北大荒集团总医院",
+  "市六院","市胸科医院","市中医医院","市一专科","市骨伤科医院"
+];
+
+// 技术服务项目
+var TECH_SERVICES = [
+  { key: "gastroscopy", label: "胃肠镜陪同" },
+  { key: "dialysis", label: "透析陪同" },
+  { key: "radiotherapy", label: "放疗陪同" },
+  { key: "chemotherapy", label: "化疗陪同" },
+  { key: "pathology_delivery", label: "病理送检" },
+  { key: "pathology_slice", label: "病理切片申请" },
+  { key: "proxy_consultation", label: "代办问诊" },
+  { key: "abortion", label: "人流陪同" }
+];
+
+// 动态生成技术服务经验部分
+var techContainer = document.getElementById("techServicesContainer");
+TECH_SERVICES.forEach(function(svc) {
+  var div = document.createElement("div");
+  div.className = "tech-service-item";
+  div.innerHTML = '<div class="tech-service-title">' + svc.label + '</div>' +
+    '<div class="hospital-grid" data-field="tech_' + svc.key + '">' +
+    HOSPITALS.map(function(h) {
+      return '<label class="checkbox-item"><input type="checkbox" name="tech_' + svc.key + '" value="' + h + '">' + h + '</label>';
+    }).join("") +
+    '<label class="checkbox-item"><input type="checkbox" name="tech_' + svc.key + '" value="未做过">未做过</label>' +
+    '</div>';
+  techContainer.appendChild(div);
+});
+
+// radio/checkbox 样式联动
+document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(function(input) {
+  input.addEventListener("change", function() {
+    // 同组radio
+    if (this.type === "radio") {
+      var name = this.name;
+      document.querySelectorAll('input[name="' + name + '"]').forEach(function(r) {
+        r.closest(".radio-item").classList.remove("active");
+      });
+      if (this.checked) this.closest(".radio-item").classList.add("active");
+    }
+    // checkbox
+    if (this.type === "checkbox") {
+      if (this.checked) this.closest(".checkbox-item").classList.add("active");
+      else this.closest(".checkbox-item").classList.remove("active");
+    }
+    updateProgress();
+  });
+});
+
+// 条件显示
+document.querySelectorAll('input[name="medical_bg"]').forEach(function(r) {
+  r.addEventListener("change", function() {
+    var field = document.getElementById("medical_bg_detail_field");
+    if (this.value === "有") field.classList.add("show");
+    else field.classList.remove("show");
+  });
+});
+document.querySelectorAll('input[name="other_city"]').forEach(function(r) {
+  r.addEventListener("change", function() {
+    var field = document.getElementById("other_city_detail_field");
+    if (this.value === "是") field.classList.add("show");
+    else field.classList.remove("show");
+  });
+});
+document.querySelectorAll('input[name="complaint"]').forEach(function(r) {
+  r.addEventListener("change", function() {
+    var field = document.getElementById("complaint_detail_field");
+    if (this.value === "有过") field.classList.add("show");
+    else field.classList.remove("show");
+  });
+});
+
+// 进度条
+function updateProgress() {
+  var totalFields = 25;
+  var filled = 0;
+  var checkedNames = {};
+  document.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked').forEach(function(input) {
+    checkedNames[input.name] = true;
+  });
+  // text fields
+  ["name","phone","wechat","district"].forEach(function(id) {
+    if (document.getElementById(id).value.trim()) filled++;
+  });
+  filled += Object.keys(checkedNames).filter(function(n) {
+    return n !== "certificates" || true;
+  }).length;
+  // 简化进度计算
+  var inputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"], input[type="text"], input[type="tel"], select, textarea');
+  var answered = new Set();
+  inputs.forEach(function(inp) {
+    if ((inp.type === "radio" || inp.type === "checkbox") && inp.checked) answered.add(inp.name);
+    if ((inp.type === "text" || inp.type === "tel") && inp.value.trim()) answered.add(inp.id);
+    if (inp.tagName === "SELECT" && inp.value) answered.add(inp.id);
+  });
+  // 计算必填字段完成度
+  var requiredFields = ["name","phone","wechat","district","gender","age","transport","education",
+    "experience","medical_bg","certificates","platforms","monthly_orders","other_city",
+    "hospitals","best_hospital","service_types","night_service","winter_service","language",
+    "insurance","wheelchair","pickup","complaint","praise","advantage","improve","availability","accept_rules"];
+  // 技术服务也算
+  TECH_SERVICES.forEach(function(s) { requiredFields.push("tech_" + s.key); });
+  var completed = 0;
+  requiredFields.forEach(function(f) {
+    if (answered.has(f)) completed++;
+  });
+  var pct = Math.round(completed / requiredFields.length * 100);
+  document.getElementById("progressFill").style.width = pct + "%";
+}
+
+// 获取单选值
+function getRadio(name) {
+  var el = document.querySelector('input[name="' + name + '"]:checked');
+  return el ? el.value : "";
+}
+// 获取多选值
+function getCheckbox(name) {
+  return Array.from(document.querySelectorAll('input[name="' + name + '"]:checked')).map(function(el) { return el.value; });
+}
+
+// 表单验证
+function validateForm() {
+  var errors = [];
+  var requiredText = [
+    { id: "name", msg: "请输入姓名" },
+    { id: "phone", msg: "请输入联系电话", validate: function(v) { return /^1\d{10}$/.test(v); }, errMsg: "请输入正确的11位手机号" },
+    { id: "wechat", msg: "请输入微信号" },
+    { id: "district", msg: "请选择常住区域" },
+    { id: "best_hospital", msg: "请选择最熟悉的医院" }
+  ];
+  requiredText.forEach(function(f) {
+    var val = document.getElementById(f.id).value.trim();
+    var fieldDiv = document.getElementById(f.id).closest(".field");
+    if (!val || (f.validate && !f.validate(val))) {
+      errors.push(f.validate ? f.errMsg : f.msg);
+      if (fieldDiv) fieldDiv.classList.add("error");
+    } else {
+      if (fieldDiv) fieldDiv.classList.remove("error");
+    }
+  });
+
+  var requiredRadios = ["gender","age","transport","education","experience","medical_bg",
+    "monthly_orders","other_city","night_service","winter_service","insurance","wheelchair",
+    "pickup","complaint","praise","advantage","improve","accept_rules"];
+  requiredRadios.forEach(function(name) {
+    var fieldDiv = document.querySelector('input[name="' + name + '"]').closest(".field");
+    if (!getRadio(name)) {
+      errors.push(name);
+      if (fieldDiv) fieldDiv.classList.add("error");
+    } else {
+      if (fieldDiv) fieldDiv.classList.remove("error");
+    }
+  });
+
+  var requiredCheckboxes = ["certificates","platforms","hospitals","service_types","language","availability"];
+  requiredCheckboxes.forEach(function(name) {
+    var firstInput = document.querySelector('input[name="' + name + '"]');
+    if (firstInput) {
+      var fieldDiv = firstInput.closest(".field");
+      if (getCheckbox(name).length === 0) {
+        errors.push(name);
+        if (fieldDiv) fieldDiv.classList.add("error");
+      } else {
+        if (fieldDiv) fieldDiv.classList.remove("error");
+      }
+    }
+  });
+
+  // 技术服务每项必填
+  TECH_SERVICES.forEach(function(s) {
+    var firstInput = document.querySelector('input[name="tech_' + s.key + '"]');
+    if (firstInput) {
+      var fieldDiv = firstInput.closest(".tech-service-item");
+      if (getCheckbox("tech_" + s.key).length === 0) {
+        errors.push("tech_" + s.key);
+        fieldDiv.style.borderColor = "var(--danger)";
+      } else {
+        fieldDiv.style.borderColor = "";
+      }
+    }
+  });
+
+  return errors.length === 0;
+}
+
+// 提交表单
+function submitForm() {
+  if (!validateForm()) {
+    // 滚动到第一个错误
+    var firstError = document.querySelector(".field.error, .tech-service-item[style*='danger']");
+    if (firstError) firstError.scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
+  var data = {
+    id: "HRB" + Date.now().toString(36).toUpperCase(),
+    submitTime: new Date().toISOString(),
+    city: "哈尔滨",
+    // 基本信息
+    name: document.getElementById("name").value.trim(),
+    gender: getRadio("gender"),
+    age: getRadio("age"),
+    phone: document.getElementById("phone").value.trim(),
+    wechat: document.getElementById("wechat").value.trim(),
+    district: document.getElementById("district").value,
+    transport: getRadio("transport"),
+    education: getRadio("education"),
+    // 从业经验
+    experience: getRadio("experience"),
+    medical_bg: getRadio("medical_bg"),
+    medical_bg_detail: document.getElementById("medical_bg_detail").value.trim(),
+    certificates: getCheckbox("certificates"),
+    platforms: getCheckbox("platforms"),
+    platforms_other: [
+      document.getElementById("platform_other_1").value.trim(),
+      document.getElementById("platform_other_2").value.trim(),
+      document.getElementById("platform_other_3").value.trim()
+    ].filter(Boolean),
+    monthly_orders: getRadio("monthly_orders"),
+    other_city: getRadio("other_city"),
+    other_city_detail: document.getElementById("other_city_detail").value.trim(),
+    // 服务能力
+    hospitals: getCheckbox("hospitals"),
+    hospital_other: document.getElementById("hospital_other").value.trim(),
+    best_hospital: document.getElementById("best_hospital").value,
+    service_types: getCheckbox("service_types"),
+    night_service: getRadio("night_service"),
+    winter_service: getRadio("winter_service"),
+    language: getCheckbox("language"),
+    insurance: getRadio("insurance"),
+    wheelchair: getRadio("wheelchair"),
+    pickup: getRadio("pickup"),
+    // 技术服务经验
+    tech_services: {}
+  };
+
+  TECH_SERVICES.forEach(function(s) {
+    data.tech_services[s.key] = {
+      label: s.label,
+      hospitals: getCheckbox("tech_" + s.key)
+    };
+  });
+
+  // 服务品质
+  data.complaint = getRadio("complaint");
+  data.complaint_detail = document.getElementById("complaint_detail").value.trim();
+  data.praise = getRadio("praise");
+  data.advantage = getRadio("advantage");
+  data.improve = getRadio("improve");
+  data.availability = getCheckbox("availability");
+  data.accept_rules = getRadio("accept_rules");
+
+  // 补充信息
+  data.bio = document.getElementById("bio").value.trim();
+  data.case_desc = document.getElementById("case_desc").value.trim();
+  data.social_media = document.getElementById("social_media").value.trim();
+
+  // 提交到后端API
+  var btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  btn.textContent = "正在提交...";
+
+  fetch("/api/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(result) {
+    if (result.success) {
+      // 显示成功页面
+      document.getElementById("successId").textContent = "申请编号：" + data.id;
+      document.getElementById("successOverlay").classList.add("show");
+      window.scrollTo(0, 0);
+    } else {
+      alert("提交失败，请重试或联系客服。");
+      btn.disabled = false;
+      btn.textContent = "提交申请";
+    }
+  })
+  .catch(function(err) {
+    // 网络错误时回退到localStorage
+    try {
+      var submissions = JSON.parse(localStorage.getItem("peizhen_submissions") || "[]");
+      submissions.push(data);
+      localStorage.setItem("peizhen_submissions", JSON.stringify(submissions));
+      document.getElementById("successId").textContent = "申请编号：" + data.id;
+      document.getElementById("successOverlay").classList.add("show");
+      window.scrollTo(0, 0);
+    } catch (e) {
+      alert("网络错误，请检查网络后重试。");
+      btn.disabled = false;
+      btn.textContent = "提交申请";
+    }
+  });
+}
+
+function resetForm() {
+  document.getElementById("successOverlay").classList.remove("show");
+  document.querySelectorAll("input").forEach(function(inp) {
+    if (inp.type === "radio" || inp.type === "checkbox") inp.checked = false;
+    else inp.value = "";
+  });
+  document.querySelectorAll("select").forEach(function(sel) { sel.value = ""; });
+  document.querySelectorAll("textarea").forEach(function(t) { t.value = ""; });
+  document.querySelectorAll(".active").forEach(function(el) { el.classList.remove("active"); });
+  document.querySelectorAll(".condition-field").forEach(function(el) { el.classList.remove("show"); });
+  document.querySelectorAll(".field.error").forEach(function(el) { el.classList.remove("error"); });
+  document.querySelectorAll(".tech-service-item").forEach(function(el) { el.style.borderColor = ""; });
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+// 语言互斥：选择"无"时取消英语/俄语；选择英语/俄语时取消"无"
+(function initLanguageMutex(){
+  var group = document.getElementById("language-group");
+  if (!group) return;
+  var inputs = group.querySelectorAll('input[name="language"]');
+  inputs.forEach(function(input){
+    input.addEventListener("change", function(){
+      var checked = Array.from(inputs).filter(function(el){ return el.checked; }).map(function(el){ return el.value; });
+      if (input.value === "无") {
+        if (input.checked) {
+          inputs.forEach(function(el){
+            if (el.value !== "无") el.checked = false;
+          });
+        }
+      } else {
+        if (input.checked) {
+          var noneInput = Array.from(inputs).find(function(el){ return el.value === "无"; });
+          if (noneInput) noneInput.checked = false;
+        }
+      }
+      // 更新视觉状态
+      inputs.forEach(function(el){ el.closest(".checkbox-item").classList.toggle("active", el.checked); });
+      updateProgress();
+    });
+  });
+})();
+
+// 初始化进度
+updateProgress();
+</script>
+
+</body>
+</html>

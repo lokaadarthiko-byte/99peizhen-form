@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>99陪诊平台 · 陪诊师数据管理后台</title>
+<style>
+:root {
+  --primary: #2563eb;
+  --primary-light: #dbeafe;
+  --primary-dark: #1e40af;
+  --success: #16a34a;
+  --success-light: #dcfce7;
+  --warning: #f59e0b;
+  --warning-light: #fef3c7;
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-800);
+  line-height: 1.6;
+}
+.header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.2);
+}
+.header-left { display: flex; align-items: center; gap: 12px; }
+.header-logo { font-size: 18px; font-weight: 700; }
+.header-badge { background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 12px; font-size: 12px; }
+.header-actions { display: flex; gap: 10px; }
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-primary { background: white; color: var(--primary); }
+.btn-primary:hover { background: var(--gray-100); }
+.btn-success { background: var(--success); color: white; }
+.btn-success:hover { opacity: 0.9; }
+.btn-outline { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.4); }
+.btn-outline:hover { border-color: white; }
+.btn-sm { padding: 5px 12px; font-size: 13px; }
+
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+
+/* 统计卡片 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+.stat-num { font-size: 28px; font-weight: 700; color: var(--gray-900); }
+.stat-label { font-size: 13px; color: var(--gray-500); margin-top: 2px; }
+.stat-card.accent .stat-num { color: var(--primary); }
+.stat-card.success .stat-num { color: var(--success); }
+.stat-card.warning .stat-num { color: var(--warning); }
+.stat-card.danger .stat-num { color: var(--danger); }
+
+/* 筛选栏 */
+.filter-bar {
+  background: white;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.filter-item { display: flex; align-items: center; gap: 6px; }
+.filter-label { font-size: 13px; color: var(--gray-500); white-space: nowrap; }
+.filter-item select, .filter-item input {
+  padding: 7px 12px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--gray-700);
+  background: white;
+  outline: none;
+}
+.filter-item select:focus, .filter-item input:focus { border-color: var(--primary); }
+.search-box { flex: 1; min-width: 200px; }
+.search-box input { width: 100%; }
+
+/* 表格 */
+.table-container {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; }
+th {
+  background: var(--gray-50);
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-600);
+  border-bottom: 1px solid var(--gray-200);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+th:hover { background: var(--gray-100); }
+td {
+  padding: 12px 14px;
+  font-size: 14px;
+  color: var(--gray-700);
+  border-bottom: 1px solid var(--gray-100);
+}
+tr:hover td { background: var(--gray-50); }
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.tag-a { background: var(--success-light); color: var(--success); }
+.tag-b { background: var(--warning-light); color: var(--warning); }
+.tag-c { background: var(--danger-light); color: var(--danger); }
+.tag-info { background: var(--primary-light); color: var(--primary); }
+.tag-gray { background: var(--gray-100); color: var(--gray-500); }
+
+.empty-state {
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--gray-400);
+}
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state .title { font-size: 16px; font-weight: 600; color: var(--gray-500); margin-bottom: 6px; }
+.empty-state .desc { font-size: 14px; }
+
+/* 详情弹窗 */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: white;
+  border-radius: var(--radius);
+  max-width: 700px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.modal-title { font-size: 17px; font-weight: 700; color: var(--gray-900); }
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--gray-400);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+.modal-close:hover { color: var(--gray-600); }
+.modal-body { padding: 20px 24px; }
+.detail-section { margin-bottom: 20px; }
+.detail-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 16px;
+}
+.detail-item { font-size: 14px; }
+.detail-item .label { color: var(--gray-400); font-size: 13px; }
+.detail-item .value { color: var(--gray-700); font-weight: 500; }
+.detail-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.tech-matrix { font-size: 13px; }
+.tech-matrix-item { padding: 4px 0; border-bottom: 1px solid var(--gray-50); }
+.tech-matrix-item:last-child { border: none; }
+
+@media (max-width: 768px) {
+  .container { padding: 12px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .filter-bar { flex-direction: column; align-items: stretch; }
+  .table-container { overflow-x: auto; }
+  th, td { font-size: 13px; padding: 10px 8px; }
+  .detail-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="header-logo">99陪诊平台</div>
+    <div class="header-badge">陪诊师数据管理 · 哈尔滨</div>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-primary btn-sm" onclick="loadData()">刷新数据</button>
+    <button class="btn btn-outline btn-sm" onclick="exportCSV()">导出CSV</button>
+    <button class="btn btn-outline btn-sm" onclick="exportJSON()">导出JSON</button>
+    <button class="btn btn-outline btn-sm" onclick="exportAIPrompt()">生成AI整理数据</button>
+    <button class="btn btn-outline btn-sm" onclick="clearAll()">清空数据</button>
+  </div>
+</div>
+
+<div class="container">
+  <!-- 统计卡片 -->
+  <div class="stats-grid" id="statsGrid"></div>
+
+  <!-- 筛选栏 -->
+  <div class="filter-bar">
+    <div class="filter-item search-box">
+      <input type="text" id="searchInput" placeholder="搜索姓名/电话/微信..." oninput="renderTable()">
+    </div>
+    <div class="filter-item">
+      <span class="filter-label">等级</span>
+      <select id="filterLevel" onchange="renderTable()">
+        <option value="">全部</option>
+        <option value="A">A级</option>
+        <option value="B">B级</option>
+        <option value="C">C级</option>
+      </select>
+    </div>
+    <div class="filter-item">
+      <span class="filter-label">熟悉医院</span>
+      <select id="filterHospital" onchange="renderTable()">
+        <option value="">全部</option>
+      </select>
+    </div>
+    <div class="filter-item">
+      <span class="filter-label">夜间服务</span>
+      <select id="filterNight" onchange="renderTable()">
+        <option value="">全部</option>
+        <option value="能">能</option>
+        <option value="不能">不能</option>
+        <option value="视情况">视情况</option>
+      </select>
+    </div>
+    <div class="filter-item">
+      <span class="filter-label">医护背景</span>
+      <select id="filterMedical" onchange="renderTable()">
+        <option value="">全部</option>
+        <option value="有">有</option>
+        <option value="无">无</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- 数据表格 -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th onclick="sortBy('name')">姓名</th>
+          <th onclick="sortBy('phone')">电话</th>
+          <th onclick="sortBy('age')">年龄</th>
+          <th onclick="sortBy('district')">区域</th>
+          <th onclick="sortBy('experience')">从业时间</th>
+          <th onclick="sortBy('monthly_orders')">月均单量</th>
+          <th onclick="sortBy('level')">等级</th>
+          <th onclick="sortBy('best_hospital')">最熟悉医院</th>
+          <th onclick="sortBy('tech_count')">技术服务</th>
+          <th onclick="sortBy('submitTime')">提交时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 详情弹窗 -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">陪诊师详情</div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// 医院列表
+var HOSPITALS = [
+  "哈医大一院","哈医大二院","哈医大肿瘤医院(三院)","哈医大四院","哈医大六院",
+  "黑龙江省医院","哈尔滨市第一医院","哈尔滨市第二医院","哈尔滨市第四医院","哈尔滨市第五医院",
+  "哈尔滨市儿童医院","哈尔滨市红十字中心医院","黑龙江中医一附院","黑龙江中医二附院","哈尔滨二四二医院",
+  "省二院","省四院","省中医院","省森工总医院","省眼科医院","北大荒集团总医院",
+  "市六院","市胸科医院","市中医医院","市一专科","市骨伤科医院"
+];
+
+var TECH_LABELS = {
+  gastroscopy: "胃肠镜陪同", dialysis: "透析陪同", radiotherapy: "放疗陪同",
+  chemotherapy: "化疗陪同", pathology_delivery: "病理送检", pathology_slice: "病理切片申请",
+  proxy_consultation: "代办问诊", abortion: "人流陪同"
+};
+
+var allData = [];
+var sortField = "submitTime";
+var sortAsc = false;
+
+// 获取数据
+function loadData() {
+  fetch("/api/submissions")
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    allData = data;
+    allData.forEach(function(d) {
+      d.level = calculateLevel(d);
+      d.tech_count = countTechServices(d);
+    });
+    initHospitalFilter();
+    renderStats();
+    renderTable();
+  })
+  .catch(function(err) {
+    // 回退到localStorage
+    allData = JSON.parse(localStorage.getItem("peizhen_submissions") || "[]");
+    allData.forEach(function(d) {
+      d.level = calculateLevel(d);
+      d.tech_count = countTechServices(d);
+    });
+    initHospitalFilter();
+    renderStats();
+    renderTable();
+  });
+}
+
+// 计算等级
+function calculateLevel(d) {
+  var exp = d.experience;
+  var hasMedical = d.medical_bg === "有";
+  var orders = d.monthly_orders;
+  var expYears = 0;
+  if (exp === "3年以上") expYears = 3;
+  else if (exp === "2-3年") expYears = 2.5;
+  else if (exp === "1-2年") expYears = 1.5;
+  var orderNum = 0;
+  if (orders === "30单以上") orderNum = 30;
+  else if (orders === "21-30单") orderNum = 25;
+  else if (orders === "11-20单") orderNum = 15;
+  else if (orders === "5-10单") orderNum = 7;
+  else orderNum = 3;
+
+  if (expYears >= 2 && hasMedical && orderNum >= 10) return "A";
+  if (expYears >= 1 && orderNum >= 5) return "B";
+  return "C";
+}
+
+// 计算技术服务数量
+function countTechServices(d) {
+  if (!d.tech_services) return 0;
+  var count = 0;
+  Object.keys(d.tech_services).forEach(function(key) {
+    var hospitals = d.tech_services[key].hospitals;
+    if (hospitals && hospitals.length > 0 && !hospitals.includes("未做过")) count++;
+  });
+  return count;
+}
+
+// 渲染统计
+function renderStats() {
+  var total = allData.length;
+  var aLevel = allData.filter(function(d) { return d.level === "A"; }).length;
+  var bLevel = allData.filter(function(d) { return d.level === "B"; }).length;
+  var hasTech = allData.filter(function(d) { return d.tech_count >= 3; }).length;
+  var hasNight = allData.filter(function(d) { return d.night_service === "能"; }).length;
+  var hasMedical = allData.filter(function(d) { return d.medical_bg === "有"; }).length;
+  var hasEnglish = allData.filter(function(d) { return d.language && d.language.includes("英语"); }).length;
+  var hasRussian = allData.filter(function(d) { return d.language && d.language.includes("俄语"); }).length;
+
+  document.getElementById("statsGrid").innerHTML = [
+    { num: total, label: "总申请数", cls: "accent" },
+    { num: aLevel, label: "A级（优先入驻）", cls: "success" },
+    { num: bLevel, label: "B级（待沟通）", cls: "warning" },
+    { num: hasTech, label: "有技术服务经验(3项+)", cls: "accent" },
+    { num: hasNight, label: "能夜间/急诊", cls: "" },
+    { num: hasMedical, label: "有医护背景", cls: "" },
+    { num: hasEnglish, label: "能英语陪诊", cls: "" },
+    { num: hasRussian, label: "能俄语陪诊", cls: "" }
+  ].map(function(s) {
+    return '<div class="stat-card ' + s.cls + '"><div class="stat-num">' + s.num + '</div><div class="stat-label">' + s.label + '</div></div>';
+  }).join("");
+}
+
+// 初始化医院筛选
+function initHospitalFilter() {
+  var select = document.getElementById("filterHospital");
+  HOSPITALS.forEach(function(h) {
+    var opt = document.createElement("option");
+    opt.value = h;
+    opt.textContent = h;
+    select.appendChild(opt);
+  });
+}
+
+// 筛选和排序
+function getFilteredData() {
+  var search = document.getElementById("searchInput").value.toLowerCase().trim();
+  var level = document.getElementById("filterLevel").value;
+  var hospital = document.getElementById("filterHospital").value;
+  var night = document.getElementById("filterNight").value;
+  var medical = document.getElementById("filterMedical").value;
+
+  return allData.filter(function(d) {
+    if (search && !((d.name || "").toLowerCase().includes(search) || (d.phone || "").includes(search) || (d.wechat || "").toLowerCase().includes(search))) return false;
+    if (level && d.level !== level) return false;
+    if (hospital && !(d.hospitals || []).includes(hospital)) return false;
+    if (night && d.night_service !== night) return false;
+    if (medical && d.medical_bg !== medical) return false;
+    return true;
+  }).sort(function(a, b) {
+    var va = a[sortField] || "";
+    var vb = b[sortField] || "";
+    if (sortField === "submitTime") {
+      va = new Date(va).getTime() || 0;
+      vb = new Date(vb).getTime() || 0;
+    }
+    if (sortField === "tech_count") { va = a.tech_count; vb = b.tech_count; }
+    if (sortField === "level") { va = a.level; vb = b.level; }
+    if (va < vb) return sortAsc ? -1 : 1;
+    if (va > vb) return sortAsc ? 1 : -1;
+    return 0;
+  });
+}
+
+function sortBy(field) {
+  if (sortField === field) sortAsc = !sortAsc;
+  else { sortField = field; sortAsc = true; }
+  renderTable();
+}
+
+// 渲染表格
+function renderTable() {
+  var data = getFilteredData();
+  var tbody = document.getElementById("tableBody");
+
+  if (data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="11"><div class="empty-state"><div class="icon">📋</div><div class="title">暂无数据</div><div class="desc">陪诊师提交申请后，数据将显示在这里</div></div></td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = data.map(function(d, i) {
+    var levelTag = d.level === "A" ? '<span class="tag tag-a">A级</span>' :
+                   d.level === "B" ? '<span class="tag tag-b">B级</span>' :
+                   '<span class="tag tag-c">C级</span>';
+    var techTag = d.tech_count >= 6 ? '<span class="tag tag-info">' + d.tech_count + '项·全能</span>' :
+                  d.tech_count >= 3 ? '<span class="tag tag-info">' + d.tech_count + '项·专项</span>' :
+                  d.tech_count > 0 ? '<span class="tag tag-gray">' + d.tech_count + '项</span>' :
+                  '<span class="tag tag-gray">无</span>';
+    var time = new Date(d.submitTime).toLocaleString("zh-CN", {month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"});
+    return '<tr>' +
+      '<td><strong>' + (d.name || "") + '</strong></td>' +
+      '<td>' + (d.phone || "") + '</td>' +
+      '<td>' + (d.age || "") + '</td>' +
+      '<td>' + (d.district || "") + '</td>' +
+      '<td>' + (d.experience || "") + '</td>' +
+      '<td>' + (d.monthly_orders || "") + '</td>' +
+      '<td>' + levelTag + '</td>' +
+      '<td>' + (d.best_hospital || "") + '</td>' +
+      '<td>' + techTag + '</td>' +
+      '<td style="font-size:12px;color:var(--gray-400)">' + time + '</td>' +
+      '<td><button class="btn btn-primary btn-sm" onclick="showDetail(' + i + ')">详情</button></td>' +
+    '</tr>';
+  }).join("");
+
+  // 存储当前筛选后的索引映射
+  tbody._filteredData = data;
+}
+
+// 显示详情
+function showDetail(filteredIndex) {
+  var data = document.getElementById("tableBody")._filteredData;
+  var d = data[filteredIndex];
+  if (!d) return;
+
+  document.getElementById("modalTitle").textContent = d.name + " · " + d.id;
+
+  var techHtml = "";
+  if (d.tech_services) {
+    techHtml = Object.keys(d.tech_services).map(function(key) {
+      var svc = d.tech_services[key];
+      var hasExp = svc.hospitals.length > 0 && !svc.hospitals.includes("未做过");
+      return '<div class="tech-matrix-item">' +
+        '<strong>' + svc.label + '</strong>: ' +
+        (hasExp ? svc.hospitals.join("、") : '<span style="color:var(--gray-400)">未做过</span>') +
+        '</div>';
+    }).join("");
+  }
+
+  var allPlatforms = (d.platforms || []).concat(d.platforms_other || []);
+
+  document.getElementById("modalBody").innerHTML = `
+    <div class="detail-section">
+      <div class="detail-section-title">基本信息</div>
+      <div class="detail-grid">
+        <div class="detail-item"><div class="label">姓名</div><div class="value">${d.name||""}</div></div>
+        <div class="detail-item"><div class="label">性别</div><div class="value">${d.gender||""}</div></div>
+        <div class="detail-item"><div class="label">年龄</div><div class="value">${d.age||""}</div></div>
+        <div class="detail-item"><div class="label">电话</div><div class="value">${d.phone||""}</div></div>
+        <div class="detail-item"><div class="label">微信</div><div class="value">${d.wechat||""}</div></div>
+        <div class="detail-item"><div class="label">常住区域</div><div class="value">${d.district||""}</div></div>
+        <div class="detail-item"><div class="label">交通工具</div><div class="value">${d.transport||""}</div></div>
+        <div class="detail-item"><div class="label">学历</div><div class="value">${d.education||""}</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">从业经验</div>
+      <div class="detail-grid">
+        <div class="detail-item"><div class="label">从业时间</div><div class="value">${d.experience||""}</div></div>
+        <div class="detail-item"><div class="label">医护背景</div><div class="value">${d.medical_bg||""}${d.medical_bg_detail?" ("+d.medical_bg_detail+")":""}</div></div>
+        <div class="detail-item"><div class="label">持有证书</div><div class="value">${(d.certificates||[]).join("、")}</div></div>
+        <div class="detail-item"><div class="label">月均接单量</div><div class="value">${d.monthly_orders||""}</div></div>
+        <div class="detail-item"><div class="label">接单平台</div><div class="value">${allPlatforms.join("、")}</div></div>
+        <div class="detail-item"><div class="label">其他城市经验</div><div class="value">${d.other_city||""}${d.other_city_detail?" ("+d.other_city_detail+")":""}</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">服务能力</div>
+      <div class="detail-grid">
+        <div class="detail-item"><div class="label">熟悉的医院</div><div class="value detail-tags">${(d.hospitals||[]).map(function(h){return '<span class="tag tag-gray">'+h+'</span>'}).join("")}${d.hospital_other?'<span class="tag tag-gray">'+d.hospital_other+'</span>':''}</div></div>
+        <div class="detail-item"><div class="label">最熟悉医院</div><div class="value">${d.best_hospital||""}</div></div>
+        <div class="detail-item"><div class="label">服务类型</div><div class="value detail-tags">${(d.service_types||[]).map(function(t){return '<span class="tag tag-info">'+t+'</span>'}).join("")}</div></div>
+        <div class="detail-item"><div class="label">夜间/急诊</div><div class="value">${d.night_service||""}</div></div>
+        <div class="detail-item"><div class="label">冬季特殊服务</div><div class="value">${d.winter_service||""}</div></div>
+        <div class="detail-item"><div class="label">外语陪诊</div><div class="value">${(d.language||[]).join("、")}</div></div>
+        <div class="detail-item"><div class="label">异地医保备案</div><div class="value">${d.insurance||""}</div></div>
+        <div class="detail-item"><div class="label">轮椅辅助</div><div class="value">${d.wheelchair||""}</div></div>
+        <div class="detail-item"><div class="label">接待外地患者</div><div class="value">${d.pickup||""}</div></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">技术服务经验（${d.tech_count}项）</div>
+      <div class="tech-matrix">${techHtml}</div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">服务品质</div>
+      <div class="detail-grid">
+        <div class="detail-item"><div class="label">客户投诉</div><div class="value">${d.complaint||""}${d.complaint_detail?" ("+d.complaint_detail+")":""}</div></div>
+        <div class="detail-item"><div class="label">好评/感谢信</div><div class="value">${d.praise||""}</div></div>
+        <div class="detail-item"><div class="label">最大优势</div><div class="value">${d.advantage||""}</div></div>
+        <div class="detail-item"><div class="label">需提升</div><div class="value">${d.improve||""}</div></div>
+        <div class="detail-item"><div class="label">可用时间段</div><div class="value detail-tags">${(d.availability||[]).map(function(t){return '<span class="tag tag-info">'+t+'</span>'}).join("")}</div></div>
+        <div class="detail-item"><div class="label">接受平台规范</div><div class="value">${d.accept_rules||""}</div></div>
+      </div>
+    </div>
+    ${d.bio || d.case_desc || d.social_media ? `
+    <div class="detail-section">
+      <div class="detail-section-title">补充信息</div>
+      ${d.bio ? '<div class="detail-item" style="margin-bottom:8px"><div class="label">个人简介</div><div class="value">'+d.bio+'</div></div>' : ''}
+      ${d.case_desc ? '<div class="detail-item" style="margin-bottom:8px"><div class="label">服务案例</div><div class="value">'+d.case_desc+'</div></div>' : ''}
+      ${d.social_media ? '<div class="detail-item"><div class="label">社交媒体</div><div class="value">'+d.social_media+'</div></div>' : ''}
+    </div>` : ''}
+  `;
+
+  document.getElementById("modalOverlay").classList.add("show");
+}
+
+function closeModal() {
+  document.getElementById("modalOverlay").classList.remove("show");
+}
+
+// 导出CSV
+function exportCSV() {
+  if (allData.length === 0) { alert("暂无数据可导出"); return; }
+  var headers = ["编号","提交时间","姓名","性别","年龄","电话","微信","常住区域","交通工具","学历",
+    "从业时间","医护背景","医护背景详情","证书","接单平台","其他平台","月均单量","其他城市经验","其他城市详情",
+    "熟悉医院","其他医院","最熟悉医院","服务类型","夜间急诊","冬季服务","外语能力","异地医保","轮椅辅助","接外地患者",
+    "胃肠镜陪同","透析陪同","放疗陪同","化疗陪同","病理送检","病理切片","代办问诊","人流陪同",
+    "投诉","投诉详情","好评","最大优势","需提升","可用时间","接受规范","个人简介","服务案例","社交媒体","等级"];
+
+  var rows = allData.map(function(d) {
+    var allPlatforms = (d.platforms||[]).concat(d.platforms_other||[]);
+    function techStr(key) {
+      if (!d.tech_services || !d.tech_services[key]) return "未做过";
+      return d.tech_services[key].hospitals.join("、");
+    }
+    return [
+      d.id, d.submitTime, d.name, d.gender, d.age, d.phone, d.wechat, d.district, d.transport, d.education,
+      d.experience, d.medical_bg, d.medical_bg_detail, (d.certificates||[]).join("、"), (d.platforms||[]).join("、"), (d.platforms_other||[]).join("、"),
+      d.monthly_orders, d.other_city, d.other_city_detail,
+      (d.hospitals||[]).join("、"), d.hospital_other, d.best_hospital, (d.service_types||[]).join("、"),
+      d.night_service, d.winter_service, (d.language||[]).join("、"), d.insurance, d.wheelchair, d.pickup,
+      techStr("gastroscopy"), techStr("dialysis"), techStr("radiotherapy"), techStr("chemotherapy"),
+      techStr("pathology_delivery"), techStr("pathology_slice"), techStr("proxy_consultation"), techStr("abortion"),
+      d.complaint, d.complaint_detail, d.praise, d.advantage, d.improve, (d.availability||[]).join("、"), d.accept_rules,
+      d.bio, d.case_desc, d.social_media, d.level
+    ];
+  });
+
+  var csv = "\uFEFF" + headers.join(",") + "\n" + rows.map(function(row) {
+    return row.map(function(cell) {
+      cell = String(cell || "").replace(/"/g, '""');
+      if (cell.includes(",") || cell.includes("\n") || cell.includes('"")) cell = '"' + cell + '"';
+      return cell;
+    }).join(",");
+  }).join("\n");
+
+  var blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  var link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "陪诊师申请数据_" + new Date().toISOString().slice(0,10) + ".csv";
+  link.click();
+}
+
+// 导出JSON（供AI处理）
+function exportJSON() {
+  if (allData.length === 0) { alert("暂无数据可导出"); return; }
+  var blob = new Blob([JSON.stringify(allData, null, 2)], { type: "application/json" });
+  var link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "陪诊师申请数据_" + new Date().toISOString().slice(0,10) + ".json";
+  link.click();
+}
+
+// 生成AI整理数据（直接输出到剪贴板）
+function exportAIPrompt() {
+  if (allData.length === 0) { alert("暂无数据可导出"); return; }
+  var prompt = "我有一份陪诊师入驻申请数据，请按以下维度分类整理：\n\n" +
+    "数据如下（JSON格式）：\n" + JSON.stringify(allData, null, 2) + "\n\n" +
+    "请按以下维度分类整理：\n" +
+    "1. 按从业经验分级：A级（2年以上+有医护背景+月均10单以上）、B级（1-2年+月均5单以上）、C级（1年以下或月均5单以下）\n" +
+    "2. 按熟悉医院分组\n" +
+    "3. 按服务能力标签化（夜间急诊/冬季服务/异地患者接站/异地医保备案/轮椅辅助/英语陪诊/俄语陪诊）\n" +
+    "4. 按技术服务经验分组（8项技术服务的医院分布，标注全能型/专项型/基础型）\n" +
+    "5. 按可用时间段统计\n" +
+    "6. 输出筛选报告：推荐优先入驻(A级)、需进一步沟通(B级)、暂不推荐(C级)，每人核心优势一句话总结，特别标注技术服务经验\n";
+
+  navigator.clipboard.writeText(prompt).then(function() {
+    alert("AI整理Prompt已复制到剪贴板！\n\n请粘贴到WorkBuddy或DeepSeek中进行整理。");
+  }).catch(function() {
+    // 降级方案
+    var blob = new Blob([prompt], { type: "text/plain" });
+    var link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "AI整理Prompt_" + new Date().toISOString().slice(0,10) + ".txt";
+    link.click();
+  });
+}
+
+// 清空数据
+function clearAll() {
+  if (!confirm("确定要清空所有陪诊师申请数据吗？此操作不可恢复！")) return;
+  if (!confirm("再次确认：这将删除所有 " + allData.length + " 条申请记录！")) return;
+  fetch("/api/submissions", { method: "DELETE" })
+  .then(function(r) { return r.json(); })
+  .then(function() {
+    loadData();
+  })
+  .catch(function() {
+    localStorage.removeItem("peizhen_submissions");
+    loadData();
+  });
+}
+
+// 初始化
+loadData();
+</script>
+
+</body>
+</html>
